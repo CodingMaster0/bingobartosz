@@ -5,119 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maszyna Bingo</title>
     <style>
+        * { 
+            box-sizing: border-box; 
+        }
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             text-align: center; 
-            background-color: #2c3e50; 
-            color: #ecf0f1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: #ffffff;
             padding: 20px; 
             margin: 0;
+            min-height: 100vh;
         }
-        h1 { margin-top: 10px; color: #f1c40f; }
+        h1 { 
+            margin-top: 10px; 
+            font-size: 38px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
         
         .wynik-karta {
-            background-color: #ecf0f1;
-            color: #e74c3c;
-            font-size: 80px;
-            font-weight: bold;
+            background-color: #ffffff;
+            color: #ff4757; 
+            font-size: 90px;
+            font-weight: 900;
             margin: 30px auto;
             padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            max-width: 300px;
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            max-width: 320px;
         }
         
         button { 
             font-size: 28px; 
             font-weight: bold;
             padding: 20px 40px; 
-            background-color: #27ae60; 
+            background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
             color: white; 
             border: none; 
-            border-radius: 15px; 
+            border-radius: 50px; 
             cursor: pointer; 
             width: 100%; 
             max-width: 350px; 
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-            transition: 0.1s;
+            box-shadow: 0 10px 25px rgba(252, 74, 26, 0.4);
+            transition: transform 0.1s, box-shadow 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         button:active { 
-            background-color: #2ecc71; 
-            transform: translateY(4px); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transform: translateY(5px); 
+            box-shadow: 0 5px 15px rgba(252, 74, 26, 0.4);
         }
         button:disabled {
-            background-color: #95a5a6;
+            background: #bdc3c7;
+            box-shadow: none;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
         .historia { 
             margin-top: 40px; 
             font-size: 18px; 
-            background: #34495e; 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 20px; 
-            border-radius: 15px; 
+            border-radius: 20px; 
             text-align: left;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            word-wrap: break-word;
-            line-height: 1.6;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .historia span { color: #f1c40f; font-weight: bold; }
+        .historia-naglowek { 
+            margin-bottom: 15px;
+        }
+        .historia-naglowek span { 
+            color: #f7b733; 
+            font-weight: bold; 
+            font-size: 20px;
+        }
+        
+        /* Styl dla historii liczb (pojemnik) */
+        #lista-wylosowanych {
+            display: flex;
+            flex-wrap: wrap; /* Zawija kafelki do nowej linii, gdy brakuje miejsca */
+            gap: 10px;       /* Odstęp między kafelkami */
+            justify-content: center;
+        }
+
+        /* Styl dla pojedynczego, zaoblonego kwadratu */
+        .kafelek {
+            background: rgba(255, 255, 255, 0.2); /* Lekko przezroczyste tło */
+            border: 1px solid rgba(255, 255, 255, 0.4); /* Jasna ramka */
+            border-radius: 12px; /* Zaokrąglone rogi (kształt kwadratu/prostokąta) */
+            padding: 10px 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            min-width: 50px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
 
-    <h1>BINGO 1-75</h1>
+    <h1>BINGO</h1>
     
     <div class="wynik-karta" id="wynik">???</div>
     
     <button onclick="losuj()" id="przycisk">LOSUJ</button>
 
     <div class="historia">
-        Wylosowane liczby (<span><span id="licznik">0</span>/75</span>):<br><br>
-        <div id="lista-wylosowanych">-</div>
+        <div class="historia-naglowek">
+            Wylosowane liczby (<span><span id="licznik">0</span>/75</span>):
+        </div>
+        <!-- Tutaj wpadną kafelki -->
+        <div id="lista-wylosowanych"></div>
     </div>
 
     <script>
-        // Tworzymy pulę liczb od 1 do 75
         let pula = [];
         for (let i = 1; i <= 75; i++) pula.push(i);
         
         let wylosowane = [];
 
+        // Funkcja pomocnicza - sprawdza jaka litera odpowiada liczbie
+        function przypiszLitere(liczba) {
+            if (liczba <= 15) return "B";
+            if (liczba <= 30) return "I";
+            if (liczba <= 45) return "N";
+            if (liczba <= 60) return "G";
+            return "O";
+        }
+
         function losuj() {
             if (pula.length === 0) {
                 document.getElementById("wynik").innerText = "KONIEC";
-                document.getElementById("wynik").style.fontSize = "50px";
+                document.getElementById("wynik").style.fontSize = "60px";
                 let btn = document.getElementById("przycisk");
                 btn.disabled = true;
                 btn.innerText = "Wszystkie wylosowane!";
                 return;
             }
 
-            // Losujemy indeks z dostępnej puli
+            // Losowanie
             let index = Math.floor(Math.random() * pula.length);
-            // Wyciągamy liczbę z puli
             let liczba = pula.splice(index, 1)[0];
             
-            // Dodajemy do wylosowanych i sortujemy
+            // Dodanie do historii i sortowanie od najmniejszej do największej
             wylosowane.push(liczba);
             wylosowane.sort((a, b) => a - b);
 
-            // Sprawdzamy literę
-            let litera = "";
-            if (liczba <= 15) litera = "B";
-            else if (liczba <= 30) litera = "I";
-            else if (liczba <= 45) litera = "N";
-            else if (liczba <= 60) litera = "G";
-            else litera = "O";
+            let litera = przypiszLitere(liczba);
 
-            // Aktualizujemy wygląd na stronie
+            // Główny wynik na ekranie
             document.getElementById("wynik").innerText = litera + " " + liczba;
             document.getElementById("licznik").innerText = wylosowane.length;
-            document.getElementById("lista-wylosowanych").innerText = wylosowane.join(", ");
+
+            // Tworzenie HTML dla historii (zamiana liczb na "kafelki")
+            let kafelkiHTML = wylosowane.map(num => {
+                let lit = przypiszLitere(num);
+                return `<div class="kafelek">${lit}${num}</div>`;
+            }).join("");
+
+            document.getElementById("lista-wylosowanych").innerHTML = kafelkiHTML;
         }
     </script>
 
