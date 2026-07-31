@@ -42,7 +42,7 @@
             backdrop-filter: blur(12px);
         }
 
-        /* --- SZYLD UMIESZCZONY WEWNĄTRZ MASZYNY, NAD BĘBNEM --- */
+        /* --- SZYLD UMIESZCZONY W WEWNĄTRZ MASZYNY, NAD BĘBNEM --- */
         .szyld {
             background: transparent;
             color: #00ffff; 
@@ -221,7 +221,7 @@
 <body>
 
     <div class="maszyna-kasyno">
-        <!-- Napis umieszczony bezpośrednio w ramce maszyny, tuż nad bębnem losującym -->
+        <!-- Napis umieszczony wewnątrz maszyny, tuż nad bębnem -->
         <div class="szyld">Brand New Bingo$$$</div>
         
         <div class="ramka-bebna">
@@ -237,7 +237,7 @@
 
     <div class="historia">
         <div class="historia-naglowek">
-            Wylosowane chronologicznie (<span><span id="licznik">0</span>/75</span>):
+            Wylosowane (najnowsze pierwsze) (<span><span id="licznik">0</span>/75</span>):
         </div>
         <div id="lista-wylosowanych"></div>
     </div>
@@ -297,7 +297,8 @@
             wynikDiv.innerText = litera + " " + liczba;
             wynikDiv.classList.add("pop");
 
-            wylosowane.push(liczba);
+            // Użycie unshift() zamiast push() sprawia, że najnowszy numer ląduje na samym początku listy
+            wylosowane.unshift(liczba);
             
             document.getElementById("licznik").innerText = wylosowane.length;
 
