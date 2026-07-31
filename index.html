@@ -3,152 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maszyna Bingo - Animacja Kasyno</title>
+    <title>Maszyna Bingo - Brand New Chanel$ Edition</title>
     <style>
-        * { 
-            box-sizing: border-box; 
-        }
+        * { box-sizing: border-box; }
+        
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             text-align: center; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            
+            /* --- TUTAJ DODANE ZDJĘCIE JAKO TŁO --- */
+            background-image: url('8bf716558c71408f075dc2e8411f1106.1000x1000x1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
             color: #ffffff;
-            padding: 20px; 
+            padding: 20px 10px; 
             margin: 0;
             min-height: 100vh;
         }
-        h1 { 
-            margin-top: 10px; 
-            font-size: 38px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
+
+        /* --- OBUDOWA MASZYNY --- */
+        .maszyna-kasyno {
+            background: linear-gradient(180deg, rgba(31, 8, 6, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%); 
+            border-radius: 30px;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 6px solid;
+            border-image: linear-gradient(to bottom right, #ffcc00, #ff6600, #cc0000, #ff9900) 1;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.9), inset 0 10px 20px rgba(255, 100, 0, 0.1);
+            position: relative;
+            backdrop-filter: blur(10px); /* Efekt szkła nad zdjęciem */
         }
-        
-        .wynik-karta {
-            background-color: #ffffff;
-            color: #ff4757; 
-            font-size: 90px;
+
+        /* Szyld */
+        .szyld {
+            background: transparent;
+            color: #00ffff; 
+            font-size: 34px;
             font-weight: 900;
-            margin: 30px auto;
-            padding: 40px 20px;
-            border-radius: 25px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            max-width: 320px;
+            font-style: italic; 
+            letter-spacing: 1px;
+            text-transform: lowercase; 
+            padding: 10px 10px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 8px #00ffff, 0 0 15px #00e5ff, 0 0 25px rgba(0, 255, 255, 0.8);
+            animation: pulsowanie-napis 2s infinite alternate;
+        }
+
+        @keyframes pulsowanie-napis {
+            from { filter: brightness(1); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
+            to { filter: brightness(1.2); text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
+        }
+
+        /* Ramka ze światełkami */
+        .ramka-swiatla {
+            background: #110505;
+            padding: 10px;
+            border-radius: 20px;
+            border: 4px dashed #ffcc00; 
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .migajace-swiatla {
+            animation: swiatla-kasyna 0.15s infinite alternate;
+        }
+
+        @keyframes swiatla-kasyna {
+            0% { border-color: #ff3300; box-shadow: 0 0 20px #ff3300; }
+            50% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+            100% { border-color: #00ffff; box-shadow: 0 0 25px #00ffff; }
+        }
+
+        /* Bęben losujący */
+        .ekran-walec {
+            background-color: #0a0101; 
+            height: 180px;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 200px; /* Stała wysokość zapobiega skakaniu ekranu */
+            position: relative;
             overflow: hidden;
+            box-shadow: inset 0 20px 30px rgba(0,0,0,1);
+            border: 1px solid #3a0a0a;
         }
 
-        /* --- ANIMACJE KASYNOWE --- */
+        .ekran-walec::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 2; pointer-events: none;
+        }
+        .ekran-walec::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            z-index: 2; pointer-events: none;
+        }
+
+        #wynik {
+            color: #ffcc00; 
+            font-size: 85px;
+            font-weight: 900;
+            z-index: 1;
+            text-shadow: 0 0 15px #ff6600, 0 0 30px #cc0000;
+        }
+
         .spinning {
-            color: #7f8fa6; /* Szarawy kolor podczas kręcenia */
-            animation: slot-machine 0.08s infinite linear; /* Bardzo szybkie "trzęsienie" */
+            color: #552200 !important;
+            animation: kręcenie-bebna 0.08s infinite linear;
+            text-shadow: none !important;
         }
-
         .pop {
-            color: #ff4757; /* Powrót do czerwonego */
-            animation: pop-out 0.4s ease-out;
+            color: #ffcc00 !important;
+            animation: pop-out 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes slot-machine {
-            0% { transform: translateY(-10px); filter: blur(2px); opacity: 0.8; }
-            50% { transform: translateY(10px); filter: blur(0px); opacity: 1; }
-            100% { transform: translateY(-10px); filter: blur(2px); opacity: 0.8; }
+        @keyframes kręcenie-bebna {
+            0% { transform: translateY(-30px); filter: blur(4px); opacity: 0.6; }
+            50% { transform: translateY(30px); filter: blur(2px); opacity: 1; }
+            100% { transform: translateY(-30px); filter: blur(4px); opacity: 0.6; }
         }
-
         @keyframes pop-out {
-            0% { transform: scale(0.8); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        button { 
-            font-size: 28px; 
-            font-weight: bold;
-            padding: 20px 40px; 
-            background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
-            color: white; 
-            border: none; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            width: 100%; 
-            max-width: 350px; 
-            box-shadow: 0 10px 25px rgba(252, 74, 26, 0.4);
-            transition: transform 0.1s, box-shadow 0.1s;
+
+        /* --- GUZIK --- */
+        .guzik-automat {
+            background: #00ffff;
+            color: #000000;
+            font-size: 30px;
+            font-weight: 900;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 0 #008b8b, 0 15px 25px rgba(0, 255, 255, 0.4);
+            transition: all 0.1s;
+            margin-bottom: 10px;
         }
-        button:active { 
-            transform: translateY(5px); 
-            box-shadow: 0 5px 15px rgba(252, 74, 26, 0.4);
+
+        .guzik-automat:active {
+            transform: translateY(10px);
+            box-shadow: 0 0px 0 #008b8b, 0 5px 15px rgba(0, 255, 255, 0.4);
+            background: #00e5ff;
         }
-        button:disabled {
-            background: #95a5a6;
-            box-shadow: none;
+
+        .guzik-automat:disabled {
+            background: #333;
+            color: #666;
+            box-shadow: 0 10px 0 #111;
             cursor: not-allowed;
             transform: none;
         }
 
+        /* --- HISTORIA --- */
         .historia { 
-            margin-top: 40px; 
-            font-size: 18px; 
-            background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            margin-top: 30px; 
+            background: rgba(20, 5, 5, 0.75); /* Zwiększona przezroczystość, by widzieć tło */
             padding: 20px; 
             border-radius: 20px; 
             text-align: left;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 100, 0, 0.3);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(8px); /* Piękne rozmycie fajerwerków w tle */
         }
-        .historia-naglowek { 
-            margin-bottom: 15px;
-        }
-        .historia-naglowek span { 
-            color: #f7b733; 
-            font-weight: bold; 
-            font-size: 20px;
-        }
+        .historia-naglowek { margin-bottom: 15px; font-size: 18px; color: #ffcc00; }
+        .historia-naglowek span { color: #00ffff; font-weight: bold; font-size: 20px; }
         
         #lista-wylosowanych {
             display: flex;
             flex-wrap: wrap; 
-            gap: 10px;       
+            gap: 8px;       
             justify-content: center;
         }
 
         .kafelek {
-            background: rgba(255, 255, 255, 0.2); 
-            border: 1px solid rgba(255, 255, 255, 0.4); 
-            border-radius: 12px; 
-            padding: 10px 5px;
-            font-size: 16px;
+            background: rgba(42, 8, 8, 0.8); 
+            border: 1px solid #ff6600; 
+            border-radius: 8px; 
+            padding: 8px 12px;
+            font-size: 15px;
             font-weight: bold;
-            color: #ffffff;
-            min-width: 50px;
+            color: #ffcc00;
+            min-width: 45px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            /* Pojawienie się nowego kafelka z małą animacją */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             animation: pop-out 0.3s ease-out;
         }
     </style>
 </head>
 <body>
 
-    <h1>BINGO</h1>
-    
-    <div class="wynik-karta">
-        <span id="wynik">???</span>
+    <div class="maszyna-kasyno">
+        <div class="szyld">brand new bingo$</div>
+        
+        <div class="ramka-swiatla" id="ramka">
+            <div class="ekran-walec">
+                <div id="wynik">???</div>
+            </div>
+        </div>
+        
+        <button class="guzik-automat" onclick="losuj()" id="przycisk">ZAKRĘĆ</button>
     </div>
-    
-    <button onclick="losuj()" id="przycisk">LOSUJ</button>
 
     <div class="historia">
         <div class="historia-naglowek">
-            Wylosowane liczby (<span><span id="licznik">0</span>/75</span>):
+            Wylosowane (<span><span id="licznik">0</span>/75</span>):
         </div>
         <div id="lista-wylosowanych"></div>
     </div>
@@ -158,7 +227,7 @@
         for (let i = 1; i <= 75; i++) pula.push(i);
         
         let wylosowane = [];
-        let czyLosuje = false; // Zapobiega klikaniu podczas animacji
+        let czyLosuje = false;
 
         function przypiszLitere(liczba) {
             if (liczba <= 15) return "B";
@@ -169,35 +238,31 @@
         }
 
         function losuj() {
-            // Zablokuj, jeśli już losuje lub brak liczb
             if (czyLosuje || pula.length === 0) return;
-            
             czyLosuje = true;
+            
             let btn = document.getElementById("przycisk");
             let wynikDiv = document.getElementById("wynik");
+            let ramka = document.getElementById("ramka");
             btn.disabled = true;
 
-            // Ustalamy faktyczny wynik
+            ramka.classList.add("migajace-swiatla");
+            wynikDiv.classList.remove("pop");
+            wynikDiv.classList.add("spinning");
+
             let index = Math.floor(Math.random() * pula.length);
             let prawdziwaLiczba = pula.splice(index, 1)[0];
             let prawdziwaLitera = przypiszLitere(prawdziwaLiczba);
 
-            // ANIMACJA: "Slot machine" effect
             let licznikKlatek = 0;
-            let maksymalnaLiczbaKlatek = 15; // Ilość "mignięć"
-            let czasMiedzyKlatkami = 60; // Szybkość migania w milisekundach
-
-            wynikDiv.classList.remove("pop");
-            wynikDiv.classList.add("spinning");
+            let maksymalnaLiczbaKlatek = 18; 
+            let czasMiedzyKlatkami = 60; 
 
             let interwalLosowania = setInterval(() => {
-                // Generuj fałszywą liczbę tylko na potrzeby animacji
                 let falszywaLiczba = Math.floor(Math.random() * 75) + 1;
                 wynikDiv.innerText = przypiszLitere(falszywaLiczba) + " " + falszywaLiczba;
-                
                 licznikKlatek++;
 
-                // Koniec kręcenia
                 if (licznikKlatek >= maksymalnaLiczbaKlatek) {
                     clearInterval(interwalLosowania);
                     zakonczLosowanie(prawdziwaLiczba, prawdziwaLitera);
@@ -208,31 +273,29 @@
         function zakonczLosowanie(liczba, litera) {
             let btn = document.getElementById("przycisk");
             let wynikDiv = document.getElementById("wynik");
+            let ramka = document.getElementById("ramka");
 
-            // Ustaw prawdziwy wynik i zmień animację na "wyskoczenie" (pop)
             wynikDiv.classList.remove("spinning");
+            ramka.classList.remove("migajace-swiatla");
+            
             wynikDiv.innerText = litera + " " + liczba;
             wynikDiv.classList.add("pop");
 
-            // Aktualizuj historię
             wylosowane.push(liczba);
             wylosowane.sort((a, b) => a - b);
             document.getElementById("licznik").innerText = wylosowane.length;
 
             let kafelkiHTML = wylosowane.map(num => {
                 let lit = przypiszLitere(num);
-                // Wyróżniamy ostatnio wylosowaną liczbę w historii ciemniejszym kolorem ramki dla czytelności (opcjonalnie)
-                let extraStyl = (num === liczba) ? 'style="background: rgba(255,255,255,0.4); border: 2px solid white;"' : '';
+                let extraStyl = (num === liczba) ? 'style="border-color: #00ffff; box-shadow: 0 0 10px #00ffff; background: rgba(0,68,68,0.9); color: #00ffff;"' : '';
                 return `<div class="kafelek" ${extraStyl}>${lit}${num}</div>`;
             }).join("");
 
             document.getElementById("lista-wylosowanych").innerHTML = kafelkiHTML;
-
-            // Zakończ proces i odblokuj przycisk, jeśli są jeszcze liczby
             czyLosuje = false;
             
             if (pula.length === 0) {
-                btn.innerText = "Wszystkie wylosowane!";
+                btn.innerText = "KONIEC GRY";
             } else {
                 btn.disabled = false;
             }
