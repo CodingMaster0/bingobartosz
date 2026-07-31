@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maszyna Bingo</title>
+    <title>Maszyna Bingo - Animacja Kasyno</title>
     <style>
         * { 
             box-sizing: border-box; 
@@ -34,6 +34,34 @@
             border-radius: 25px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
             max-width: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px; /* Stała wysokość zapobiega skakaniu ekranu */
+            overflow: hidden;
+        }
+
+        /* --- ANIMACJE KASYNOWE --- */
+        .spinning {
+            color: #7f8fa6; /* Szarawy kolor podczas kręcenia */
+            animation: slot-machine 0.08s infinite linear; /* Bardzo szybkie "trzęsienie" */
+        }
+
+        .pop {
+            color: #ff4757; /* Powrót do czerwonego */
+            animation: pop-out 0.4s ease-out;
+        }
+
+        @keyframes slot-machine {
+            0% { transform: translateY(-10px); filter: blur(2px); opacity: 0.8; }
+            50% { transform: translateY(10px); filter: blur(0px); opacity: 1; }
+            100% { transform: translateY(-10px); filter: blur(2px); opacity: 0.8; }
+        }
+
+        @keyframes pop-out {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
         
         button { 
@@ -57,7 +85,7 @@
             box-shadow: 0 5px 15px rgba(252, 74, 26, 0.4);
         }
         button:disabled {
-            background: #bdc3c7;
+            background: #95a5a6;
             box-shadow: none;
             cursor: not-allowed;
             transform: none;
@@ -84,19 +112,17 @@
             font-size: 20px;
         }
         
-        /* Styl dla historii liczb (pojemnik) */
         #lista-wylosowanych {
             display: flex;
-            flex-wrap: wrap; /* Zawija kafelki do nowej linii, gdy brakuje miejsca */
-            gap: 10px;       /* Odstęp między kafelkami */
+            flex-wrap: wrap; 
+            gap: 10px;       
             justify-content: center;
         }
 
-        /* Styl dla pojedynczego, zaoblonego kwadratu */
         .kafelek {
-            background: rgba(255, 255, 255, 0.2); /* Lekko przezroczyste tło */
-            border: 1px solid rgba(255, 255, 255, 0.4); /* Jasna ramka */
-            border-radius: 12px; /* Zaokrąglone rogi (kształt kwadratu/prostokąta) */
+            background: rgba(255, 255, 255, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            border-radius: 12px; 
             padding: 10px 5px;
             font-size: 16px;
             font-weight: bold;
@@ -105,6 +131,8 @@
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            /* Pojawienie się nowego kafelka z małą animacją */
+            animation: pop-out 0.3s ease-out;
         }
     </style>
 </head>
@@ -112,7 +140,9 @@
 
     <h1>BINGO</h1>
     
-    <div class="wynik-karta" id="wynik">???</div>
+    <div class="wynik-karta">
+        <span id="wynik">???</span>
+    </div>
     
     <button onclick="losuj()" id="przycisk">LOSUJ</button>
 
@@ -120,7 +150,6 @@
         <div class="historia-naglowek">
             Wylosowane liczby (<span><span id="licznik">0</span>/75</span>):
         </div>
-        <!-- Tutaj wpadną kafelki -->
         <div id="lista-wylosowanych"></div>
     </div>
 
@@ -129,8 +158,8 @@
         for (let i = 1; i <= 75; i++) pula.push(i);
         
         let wylosowane = [];
+        let czyLosuje = false; // Zapobiega klikaniu podczas animacji
 
-        // Funkcja pomocnicza - sprawdza jaka litera odpowiada liczbie
         function przypiszLitere(liczba) {
             if (liczba <= 15) return "B";
             if (liczba <= 30) return "I";
@@ -140,36 +169,73 @@
         }
 
         function losuj() {
-            if (pula.length === 0) {
-                document.getElementById("wynik").innerText = "KONIEC";
-                document.getElementById("wynik").style.fontSize = "60px";
-                let btn = document.getElementById("przycisk");
-                btn.disabled = true;
-                btn.innerText = "Wszystkie wylosowane!";
-                return;
-            }
-
-            // Losowanie
-            let index = Math.floor(Math.random() * pula.length);
-            let liczba = pula.splice(index, 1)[0];
+            // Zablokuj, jeśli już losuje lub brak liczb
+            if (czyLosuje || pula.length === 0) return;
             
-            // Dodanie do historii i sortowanie od najmniejszej do największej
+            czyLosuje = true;
+            let btn = document.getElementById("przycisk");
+            let wynikDiv = document.getElementById("wynik");
+            btn.disabled = true;
+
+            // Ustalamy faktyczny wynik
+            let index = Math.floor(Math.random() * pula.length);
+            let prawdziwaLiczba = pula.splice(index, 1)[0];
+            let prawdziwaLitera = przypiszLitere(prawdziwaLiczba);
+
+            // ANIMACJA: "Slot machine" effect
+            let licznikKlatek = 0;
+            let maksymalnaLiczbaKlatek = 15; // Ilość "mignięć"
+            let czasMiedzyKlatkami = 60; // Szybkość migania w milisekundach
+
+            wynikDiv.classList.remove("pop");
+            wynikDiv.classList.add("spinning");
+
+            let interwalLosowania = setInterval(() => {
+                // Generuj fałszywą liczbę tylko na potrzeby animacji
+                let falszywaLiczba = Math.floor(Math.random() * 75) + 1;
+                wynikDiv.innerText = przypiszLitere(falszywaLiczba) + " " + falszywaLiczba;
+                
+                licznikKlatek++;
+
+                // Koniec kręcenia
+                if (licznikKlatek >= maksymalnaLiczbaKlatek) {
+                    clearInterval(interwalLosowania);
+                    zakonczLosowanie(prawdziwaLiczba, prawdziwaLitera);
+                }
+            }, czasMiedzyKlatkami);
+        }
+
+        function zakonczLosowanie(liczba, litera) {
+            let btn = document.getElementById("przycisk");
+            let wynikDiv = document.getElementById("wynik");
+
+            // Ustaw prawdziwy wynik i zmień animację na "wyskoczenie" (pop)
+            wynikDiv.classList.remove("spinning");
+            wynikDiv.innerText = litera + " " + liczba;
+            wynikDiv.classList.add("pop");
+
+            // Aktualizuj historię
             wylosowane.push(liczba);
             wylosowane.sort((a, b) => a - b);
-
-            let litera = przypiszLitere(liczba);
-
-            // Główny wynik na ekranie
-            document.getElementById("wynik").innerText = litera + " " + liczba;
             document.getElementById("licznik").innerText = wylosowane.length;
 
-            // Tworzenie HTML dla historii (zamiana liczb na "kafelki")
             let kafelkiHTML = wylosowane.map(num => {
                 let lit = przypiszLitere(num);
-                return `<div class="kafelek">${lit}${num}</div>`;
+                // Wyróżniamy ostatnio wylosowaną liczbę w historii ciemniejszym kolorem ramki dla czytelności (opcjonalnie)
+                let extraStyl = (num === liczba) ? 'style="background: rgba(255,255,255,0.4); border: 2px solid white;"' : '';
+                return `<div class="kafelek" ${extraStyl}>${lit}${num}</div>`;
             }).join("");
 
             document.getElementById("lista-wylosowanych").innerHTML = kafelkiHTML;
+
+            // Zakończ proces i odblokuj przycisk, jeśli są jeszcze liczby
+            czyLosuje = false;
+            
+            if (pula.length === 0) {
+                btn.innerText = "Wszystkie wylosowane!";
+            } else {
+                btn.disabled = false;
+            }
         }
     </script>
 
