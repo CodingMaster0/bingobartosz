@@ -22,19 +22,36 @@
             padding: 20px 10px; 
             margin: 0;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* --- SZYLD Z NAPISEM BRAND NEW BINGO$$$ --- */
+        /* --- OBUDOWA MASZYNY --- */
+        .maszyna-kasyno {
+            background: linear-gradient(135deg, rgba(74, 15, 13, 0.95) 0%, rgba(31, 8, 6, 0.95) 100%);
+            border-radius: 25px;
+            padding: 30px 25px;
+            max-width: 380px;
+            width: 100%;
+            margin: 0 auto;
+            border: 4px solid #ff6600;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 102, 0, 0.4);
+            position: relative;
+            backdrop-filter: blur(12px);
+        }
+
+        /* --- SZYLD UMIESZCZONY WEWNĄTRZ MASZYNY, NAD BĘBNEM --- */
         .szyld {
             background: transparent;
             color: #00ffff; 
-            font-size: 30px;
+            font-size: 24px;
             font-weight: 900;
             font-style: italic; 
             letter-spacing: 1px;
-            /* Usunięte text-transform: lowercase, żeby zachować wielkie litery z Twojego życzenia */
-            padding: 10px;
-            margin-bottom: 25px;
+            padding: 5px;
+            margin-bottom: 15px;
             text-shadow: 0 0 8px #00ffff, 0 0 15px #00e5ff, 0 0 25px rgba(0, 255, 255, 0.8);
             animation: pulsowanie-napis 2s infinite alternate;
         }
@@ -42,19 +59,6 @@
         @keyframes pulsowanie-napis {
             from { filter: brightness(1); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
             to { filter: brightness(1.2); text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
-        }
-
-        /* --- OBUDOWA MASZYNY (Kształt emotki w kolorach albumu) --- */
-        .maszyna-kasyno {
-            background: linear-gradient(135deg, rgba(74, 15, 13, 0.95) 0%, rgba(31, 8, 6, 0.95) 100%);
-            border-radius: 25px;
-            padding: 35px 25px;
-            max-width: 380px;
-            margin: 0 auto;
-            border: 4px solid #ff6600;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 102, 0, 0.4);
-            position: relative;
-            backdrop-filter: blur(12px);
         }
 
         /* Ramka bębna z emotki, w barwach albumu */
@@ -180,18 +184,17 @@
 
         /* --- HISTORIA --- */
         .historia { 
-            margin-top: 30px; 
+            margin-top: 20px; 
             background: rgba(31, 8, 6, 0.85); 
-            padding: 20px; 
+            padding: 15px 20px; 
             border-radius: 20px; 
             text-align: left;
             border: 1px solid rgba(255, 102, 0, 0.4);
             max-width: 480px;
-            margin-left: auto;
-            margin-right: auto;
+            width: 100%;
             backdrop-filter: blur(8px);
         }
-        .historia-naglowek { margin-bottom: 15px; font-size: 18px; color: #ffcc00; font-weight: bold; }
+        .historia-naglowek { margin-bottom: 15px; font-size: 16px; color: #ffcc00; font-weight: bold; }
         .historia-naglowek span { color: #00ffff; }
         
         #lista-wylosowanych {
@@ -205,11 +208,11 @@
             background: rgba(42, 8, 8, 0.9); 
             border: 1px solid #ff6600; 
             border-radius: 8px; 
-            padding: 8px 12px;
-            font-size: 15px;
+            padding: 6px 10px;
+            font-size: 14px;
             font-weight: bold;
             color: #ffcc00;
-            min-width: 45px;
+            min-width: 40px;
             text-align: center;
             animation: pop-out 0.3s ease-out;
         }
@@ -217,9 +220,9 @@
 </head>
 <body>
 
-    <div class="szyld">Brand New Bingo$$$</div>
-
     <div class="maszyna-kasyno">
+        <!-- Napis umieszczony bezpośrednio w ramce maszyny, tuż nad bębnem losującym -->
+        <div class="szyld">Brand New Bingo$$$</div>
         
         <div class="ramka-bebna">
             <div class="ekran-walec">
@@ -230,7 +233,6 @@
         <div class="tacka"></div>
         
         <button class="guzik-automat" onclick="losuj()" id="przycisk">ZAKRĘĆ</button>
-
     </div>
 
     <div class="historia">
