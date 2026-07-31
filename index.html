@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maszyna Bingo - Brand New Chanel$ Edition</title>
+    <title>Maszyna Bingo - Brand New Bingo$$$</title>
     <style>
         * { box-sizing: border-box; }
         
@@ -11,7 +11,7 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             text-align: center; 
             
-            /* --- TUTAJ DODANE ZDJĘCIE JAKO TŁO --- */
+            /* Tło z okładki singla */
             background-image: url('8bf716558c71408f075dc2e8411f1106.1000x1000x1.jpg');
             background-size: cover;
             background-position: center;
@@ -24,30 +24,16 @@
             min-height: 100vh;
         }
 
-        /* --- OBUDOWA MASZYNY --- */
-        .maszyna-kasyno {
-            background: linear-gradient(180deg, rgba(31, 8, 6, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%); 
-            border-radius: 30px;
-            padding: 20px;
-            max-width: 400px;
-            margin: 0 auto;
-            border: 6px solid;
-            border-image: linear-gradient(to bottom right, #ffcc00, #ff6600, #cc0000, #ff9900) 1;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.9), inset 0 10px 20px rgba(255, 100, 0, 0.1);
-            position: relative;
-            backdrop-filter: blur(10px); /* Efekt szkła nad zdjęciem */
-        }
-
-        /* Szyld */
+        /* --- SZYLD Z NAPISEM BRAND NEW BINGO$$$ --- */
         .szyld {
             background: transparent;
             color: #00ffff; 
-            font-size: 34px;
+            font-size: 30px;
             font-weight: 900;
             font-style: italic; 
             letter-spacing: 1px;
-            text-transform: lowercase; 
-            padding: 10px 10px;
+            /* Usunięte text-transform: lowercase, żeby zachować wielkie litery z Twojego życzenia */
+            padding: 10px;
             margin-bottom: 25px;
             text-shadow: 0 0 8px #00ffff, 0 0 15px #00e5ff, 0 0 25px rgba(0, 255, 255, 0.8);
             animation: pulsowanie-napis 2s infinite alternate;
@@ -58,136 +44,165 @@
             to { filter: brightness(1.2); text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
         }
 
-        /* Ramka ze światełkami */
-        .ramka-swiatla {
-            background: #110505;
-            padding: 10px;
-            border-radius: 20px;
-            border: 4px dashed #ffcc00; 
-            margin-bottom: 30px;
+        /* --- OBUDOWA MASZYNY (Kształt emotki w kolorach albumu) --- */
+        .maszyna-kasyno {
+            background: linear-gradient(135deg, rgba(74, 15, 13, 0.95) 0%, rgba(31, 8, 6, 0.95) 100%);
+            border-radius: 25px;
+            padding: 35px 25px;
+            max-width: 380px;
+            margin: 0 auto;
+            border: 4px solid #ff6600;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 102, 0, 0.4);
             position: relative;
+            backdrop-filter: blur(12px);
         }
 
-        .migajace-swiatla {
-            animation: swiatla-kasyna 0.15s infinite alternate;
+        /* Ramka bębna z emotki, w barwach albumu */
+        .ramka-bebna {
+            background: #1a0202; 
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            border: 2px solid #ffcc00;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.9), 0 0 15px rgba(255, 204, 0, 0.3);
         }
 
-        @keyframes swiatla-kasyna {
-            0% { border-color: #ff3300; box-shadow: 0 0 20px #ff3300; }
-            50% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
-            100% { border-color: #00ffff; box-shadow: 0 0 25px #00ffff; }
-        }
-
-        /* Bęben losujący */
+        /* Ekran z półkolami z emotki */
         .ekran-walec {
-            background-color: #0a0101; 
-            height: 180px;
+            background-color: #080101; 
+            height: 150px;
+            width: 100%;
+            max-width: 200px;
             border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 20px 30px rgba(0,0,0,1);
-            border: 1px solid #3a0a0a;
+            border: 1px solid #2a0808;
         }
 
+        /* Górne półkole (Cyjan) */
         .ekran-walec::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
-            z-index: 2; pointer-events: none;
+            content: ''; 
+            position: absolute; 
+            top: -15px; 
+            width: 50px; 
+            height: 30px;
+            background-color: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00ffff;
         }
+
+        /* Dolne półkole (Ognisty złoty odcień) */
         .ekran-walec::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            z-index: 2; pointer-events: none;
+            content: ''; 
+            position: absolute; 
+            bottom: -15px; 
+            width: 50px; 
+            height: 30px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #ffcc00;
         }
 
         #wynik {
             color: #ffcc00; 
-            font-size: 85px;
+            font-size: 65px;
             font-weight: 900;
             z-index: 1;
-            text-shadow: 0 0 15px #ff6600, 0 0 30px #cc0000;
+            text-shadow: 0 0 12px #ff6600, 0 0 20px #cc0000;
         }
 
-        .spinning {
-            color: #552200 !important;
-            animation: kręcenie-bebna 0.08s infinite linear;
-            text-shadow: none !important;
-        }
-        .pop {
-            color: #ffcc00 !important;
-            animation: pop-out 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes kręcenie-bebna {
-            0% { transform: translateY(-30px); filter: blur(4px); opacity: 0.6; }
-            50% { transform: translateY(30px); filter: blur(2px); opacity: 1; }
-            100% { transform: translateY(-30px); filter: blur(4px); opacity: 0.6; }
-        }
-        @keyframes pop-out {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        /* Tacka na monety z emotki w klimacie albumu */
+        .tacka {
+            background-color: #120202;
+            height: 30px;
+            width: 65%;
+            margin: 0 auto 25px auto;
+            border-radius: 4px 4px 20px 20px;
+            border: 1px solid #ff6600;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.9);
         }
 
         /* --- GUZIK --- */
         .guzik-automat {
             background: #00ffff;
             color: #000000;
-            font-size: 30px;
+            font-size: 26px;
             font-weight: 900;
             width: 100%;
-            padding: 20px;
+            padding: 18px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 10px 0 #008b8b, 0 15px 25px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 8px 0 #008b8b, 0 10px 20px rgba(0, 255, 255, 0.4);
             transition: all 0.1s;
-            margin-bottom: 10px;
         }
 
         .guzik-automat:active {
-            transform: translateY(10px);
-            box-shadow: 0 0px 0 #008b8b, 0 5px 15px rgba(0, 255, 255, 0.4);
+            transform: translateY(8px);
+            box-shadow: 0 0px 0 #008b8b;
             background: #00e5ff;
         }
 
         .guzik-automat:disabled {
             background: #333;
             color: #666;
-            box-shadow: 0 10px 0 #111;
+            box-shadow: 0 8px 0 #111;
             cursor: not-allowed;
             transform: none;
+        }
+
+        /* --- ANIMACJE --- */
+        .spinning {
+            color: #552200 !important;
+            animation: kręcenie-bebna 0.08s infinite linear;
+            text-shadow: none !important;
+        }
+        .pop {
+            animation: pop-out 0.4s ease-out;
+        }
+
+        @keyframes kręcenie-bebna {
+            0% { transform: translateY(-20px); filter: blur(3px); opacity: 0.7; }
+            50% { transform: translateY(20px); filter: blur(1px); opacity: 1; }
+            100% { transform: translateY(-20px); filter: blur(3px); opacity: 0.7; }
+        }
+        @keyframes pop-out {
+            0% { transform: scale(0.6); }
+            100% { transform: scale(1); }
         }
 
         /* --- HISTORIA --- */
         .historia { 
             margin-top: 30px; 
-            background: rgba(20, 5, 5, 0.75); /* Zwiększona przezroczystość, by widzieć tło */
+            background: rgba(31, 8, 6, 0.85); 
             padding: 20px; 
             border-radius: 20px; 
             text-align: left;
-            border: 1px solid rgba(255, 100, 0, 0.3);
-            max-width: 500px;
+            border: 1px solid rgba(255, 102, 0, 0.4);
+            max-width: 480px;
             margin-left: auto;
             margin-right: auto;
-            backdrop-filter: blur(8px); /* Piękne rozmycie fajerwerków w tle */
+            backdrop-filter: blur(8px);
         }
-        .historia-naglowek { margin-bottom: 15px; font-size: 18px; color: #ffcc00; }
-        .historia-naglowek span { color: #00ffff; font-weight: bold; font-size: 20px; }
+        .historia-naglowek { margin-bottom: 15px; font-size: 18px; color: #ffcc00; font-weight: bold; }
+        .historia-naglowek span { color: #00ffff; }
         
         #lista-wylosowanych {
             display: flex;
             flex-wrap: wrap; 
             gap: 8px;       
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .kafelek {
-            background: rgba(42, 8, 8, 0.8); 
+            background: rgba(42, 8, 8, 0.9); 
             border: 1px solid #ff6600; 
             border-radius: 8px; 
             padding: 8px 12px;
@@ -196,28 +211,31 @@
             color: #ffcc00;
             min-width: 45px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             animation: pop-out 0.3s ease-out;
         }
     </style>
 </head>
 <body>
 
+    <div class="szyld">Brand New Bingo$$$</div>
+
     <div class="maszyna-kasyno">
-        <div class="szyld">brand new bingo$</div>
         
-        <div class="ramka-swiatla" id="ramka">
+        <div class="ramka-bebna">
             <div class="ekran-walec">
                 <div id="wynik">???</div>
             </div>
         </div>
         
+        <div class="tacka"></div>
+        
         <button class="guzik-automat" onclick="losuj()" id="przycisk">ZAKRĘĆ</button>
+
     </div>
 
     <div class="historia">
         <div class="historia-naglowek">
-            Wylosowane (<span><span id="licznik">0</span>/75</span>):
+            Wylosowane chronologicznie (<span><span id="licznik">0</span>/75</span>):
         </div>
         <div id="lista-wylosowanych"></div>
     </div>
@@ -243,10 +261,8 @@
             
             let btn = document.getElementById("przycisk");
             let wynikDiv = document.getElementById("wynik");
-            let ramka = document.getElementById("ramka");
             btn.disabled = true;
 
-            ramka.classList.add("migajace-swiatla");
             wynikDiv.classList.remove("pop");
             wynikDiv.classList.add("spinning");
 
@@ -273,16 +289,14 @@
         function zakonczLosowanie(liczba, litera) {
             let btn = document.getElementById("przycisk");
             let wynikDiv = document.getElementById("wynik");
-            let ramka = document.getElementById("ramka");
 
             wynikDiv.classList.remove("spinning");
-            ramka.classList.remove("migajace-swiatla");
             
             wynikDiv.innerText = litera + " " + liczba;
             wynikDiv.classList.add("pop");
 
             wylosowane.push(liczba);
-            wylosowane.sort((a, b) => a - b);
+            
             document.getElementById("licznik").innerText = wylosowane.length;
 
             let kafelkiHTML = wylosowane.map(num => {
